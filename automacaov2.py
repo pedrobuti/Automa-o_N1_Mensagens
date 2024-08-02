@@ -9,17 +9,17 @@ print("2- Indisponibilidade de Link")
 print("3- Indisponibilidade Interna")
 
 # Solicita uma resposta do usuário para as indisponibilidades
-resposta1 = int(input("Selecione: "))
+resposta = int(input("Selecione: "))
 
 # Caso seja problema de energia
-if resposta1 == 1:
+if resposta == 1:
     unidade_energia = input("Qual unidade está com essa indisponibilidade? Informe: ")
 
     print("O problema está relacionado com a Copel?\n1- Sim\n2- Não")
     relacionado_copel = int(input("Selecione: "))
 
-    if relacionado_copel == 1:
-        relacionado_copel = "está relacionado"
+    if resposta == 1:
+        relacionado_copel = True, "está relacionado" 
     else:
         relacionado_copel = "não está relacionado"
 
@@ -33,28 +33,39 @@ if resposta1 == 1:
             unidade_entrou_contato = "não entrou em contato"
 
         if unidade_entrou_contato == "entrou em contato":
-            resolucao_problema_energia = input(
-                'Foi informado um prazo de resolução para o problema?\nInforme o prazo abaixo da seguinte forma: "X"hrs\nExemplo: 8hrs\nPrazo: '
-            )
+            resolucao_problema_energia = True
+        else:
+            resolucao_problema_energia = False
 
-            print("Foi dado um motivo para o problema?\n1- Sim\n2- Não")
+        if resolucao_problema_energia == True:
+            resposta_problema_energia = input('Informe o prazo abaixo da seguinte forma: "X"hrs\nExemplo: 8hrs\nPrazo: ')
+
+        if unidade_entrou_contato == "entrou em contato":
+            print("Foi dado um motivo para o problema? \n 1- Sim \n 2- Não")
             motivo_problema_energia = int(input("Selecione: "))
 
             if motivo_problema_energia == 1:
-                motivo_problema_energia = "foi"
-                motivo_escrito_problema_energia = input("Qual a justificativa do problema? Nos informe: ")
+                motivo_problema_energia = True
             else:
-                motivo_problema_energia = "não foi"
+                motivo_problema_energia = False
+            
+            if motivo_problema_energia == True:
+                resposta_motivo_problema_energia = input("Qual a justificativa do problema? Nos informe: ")
+            else:
+                pass
 
             print("Aguarde, estamos processando seu chamado!")
             time.sleep(5)
             print("Chamado gerado!")
 
             print(
-                f"Após analisarmos a unidade {unidade_energia}, entramos em contato com os colaboradores e "
-                f"foi nos passado as seguintes informações: A unidade está sem energia, o problema {relacionado_copel} com a Copel, "
-                f"a unidade {unidade_entrou_contato} com a mesma, e o prazo para resolução é de {resolucao_problema_energia} "
-                f"e {motivo_problema_energia} informado o motivo para a indisponibilidade."
-            )
-            if motivo_problema_energia == "foi":
-                print(motivo_escrito_problema_energia)
+                f"Após analisarmos a unidade de {unidade_energia}, entramos em contato com os colaboradores e "
+                f"foi nos passado as seguintes informações: A unidade está sem energia e o problema {relacionado_copel} a Copel.\n"
+                f"A unidade de {unidade_energia} já entrou em contato com a copel.")
+            
+            if resolucao_problema_energia == True:
+                print (f"O prazo para resolução é de {resposta_problema_energia}")
+            else:
+                print (f"Não foi definido um prazo para resolução")
+            if motivo_problema_energia == True:
+                print (f"{resposta_motivo_problema_energia} informado o motivo para a indisponibilidade")
