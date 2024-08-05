@@ -59,7 +59,7 @@ if resposta == 1:
             print("Chamado gerado!")
 
             print(
-                f"Após analisarmos a unidade de {unidade_energia}, entramos em contato com os colaboradores e "
+                f"Após analisarmos a unidade de {unidade_energia}, entramos em contato com o(a) e "
                 f"foi nos passado as seguintes informações: A unidade está sem energia e o problema {relacionado_copel} à Copel.\n"
                 f"A unidade de {unidade_energia} já {unidade_entrou_contato} com a Copel."
             )
