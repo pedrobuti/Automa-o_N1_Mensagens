@@ -33,6 +33,11 @@ if resposta == 1:
             unidade_entrou_contato = "não entrou em contato"
 
         if unidade_entrou_contato == "entrou em contato":
+            colaborador_contato = input ("Qual colaborador você entrou em contato?")
+        else:
+            pass
+
+        if unidade_entrou_contato == "entrou em contato":
             resolucao_problema_energia = True
         else:
             resolucao_problema_energia = False
@@ -59,9 +64,9 @@ if resposta == 1:
             print("Chamado gerado!")
 
             print(
-                f"Após analisarmos a unidade de {unidade_energia}, entramos em contato com o(a) e "
-                f"foi nos passado as seguintes informações: A unidade está sem energia e o problema {relacionado_copel} à Copel.\n"
-                f"A unidade de {unidade_energia} já {unidade_entrou_contato} com a Copel."
+                f"Após analisarmos a unidade de {unidade_energia}, entramos em contato com o(a) {colaborador_contato} e"
+                f" foi nos passado as seguintes informações: A unidade está sem energia e o problema {relacionado_copel} à Copel.\n"
+                f" A unidade de {unidade_energia} já {unidade_entrou_contato} com a Copel."
             )
             
             if resolucao_problema_energia:
