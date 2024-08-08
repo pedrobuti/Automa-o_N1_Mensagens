@@ -46,7 +46,7 @@
         <h2 class="text-center">Gerador de Chamados</h2>
         <form id="chamadoForm">
             <div class="form-group">
-                <label for="tipoProblema">Selecione o tipo de problema</label>
+                <label for="tipoProblema">Selecione o tipo de problema *</label>
                 <select class="form-control" id="tipoProblema">
                     <option value="">Selecione</option>
                     <option value="energia">Indisponibilidade de Energia</option>
@@ -54,15 +54,14 @@
                     <option value="interno">Problema interno</option>
                 </select>
             </div>
-
             <div id="formEnergia" class="form-section">
                 <div class="form-row">
                     <div class="form-group col-md-12">
-                        <label for="unidade_energia">Qual unidade está com essa indisponibilidade?</label>
+                        <label for="unidade_energia">Qual unidade está com essa indisponibilidade? *</label>
                         <input type="text" class="form-control" id="unidade_energia" name="unidade_energia" placeholder="Informe a unidade" required>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="relacionado_copel">O problema está relacionado com a Copel?</label>
+                        <label for="relacionado_copel">O problema está relacionado com a Copel? *</label>
                         <select id="relacionado_copel" name="relacionado_copel" class="form-control" required>
                             <option value="" selected>Selecione</option>
                             <option value="está relacionado">Sim</option>
@@ -70,7 +69,7 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6" id="contatoCopelSection">
-                        <label for="entrou_contato">A unidade já entrou em contato com a Copel?</label>
+                        <label for="entrou_contato">A unidade já entrou em contato com a Copel? *</label>
                         <select id="entrou_contato" name="entrou_contato" class="form-control" required>
                             <option value="" selected>Selecione</option>
                             <option value="entrou em contato">Sim</option>
@@ -78,15 +77,14 @@
                         </select>
                     </div>
                 </div>
-
                 <div id="contatoCopel" style="display: none;">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="colaborador_contato">Qual colaborador você entrou em contato?</label>
+                            <label for="colaborador_contato">Qual colaborador você entrou em contato? *</label>
                             <input type="text" class="form-control" id="colaborador_contato" name="colaborador_contato">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="prazo_resolucao">Informe o prazo para resolução (Ex: 8hrs):</label>
+                            <label for="prazo_resolucao">Informe o prazo para resolução (Ex: 8hrs): *</label>
                             <input type="text" class="form-control" id="prazo_resolucao" name="prazo_resolucao">
                         </div>
                     </div>
@@ -100,36 +98,39 @@
                     </div>
                     <div id="justificativa" style="display: none;">
                         <div class="form-group">
-                            <label for="justificativa_problema">Qual a justificativa do problema?</label>
+                            <label for="justificativa_problema">Qual a justificativa do problema? *</label>
                             <input type="text" class="form-control" id="justificativa_problema" name="justificativa_problema">
                         </div>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary custom-primary">Gerar Chamado</button>
             </div>
-
             <div id="formLink" class="form-section">
                 <div class="form-group">
                     <label for="unidade_link">Qual unidade está com essa indisponibilidade?</label>
-                    <input type="text" class="form-control" id="unidade_link" name="unidade_link" placeholder="Informe a unidade" required>
+                    <input type="text" class="form-control" id="unidade_link" name="unidade_link" placeholder="Informe a unidade">
                 </div>
                 <div class="form-group">
-                    <label for="abertura_chamado">Foi realizada a abertura de chamado?</label>
-                    <select id="abertura_chamado" name="abertura_chamado" class="form-control" required>
+                    <label for="abertura_chamado">Foi realizada a abertura de chamado? *</label>
+                    <select id="abertura_chamado" name="abertura_chamado" class="form-control">
                         <option value="">Selecione</option>
                         <option value="sim">Sim</option>
                         <option value="não">Não</option>
                     </select>
                 </div>
-
                 <div id="chamadoAberto" style="display: none;">
-                    <div class="form-group">
-                        <label for="ticket_chamado">Informe o Ticket do chamado</label>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="ticket_chamado">Informe o Ticket do chamado *</label>
                         <input type="text" class="form-control" id="ticket_chamado" name="ticket_chamado" placeholder="Ticket do chamado">
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="prazo_resolucao_internet">Informe o prazo para resolução (Ex: 8hrs): *</label>
+                        <input type="text" class="form-control" id="prazo_resolucao_internet" name="prazo_resolucao_internet">
+                    </div>
+                </div>
                     <button type="submit" class="btn btn-primary custom-primary">Gerar Chamado</button>
                 </div>
-
                 <div id="avisoAbrirChamado" style="display: none;">
                     <div class="alert alert-warning" role="alert">
                         Por favor, realize a abertura do chamado antes de continuar.
@@ -137,13 +138,11 @@
                 </div>
             </div>
         </form>
-
         <div class="result-box" id="mensagem"></div>
         <div class="copy-button-container">
             <button id="copiarTexto" class="btn btn-primary custom-primary copy-button hidden">Copiar para Área de Transferência</button>
         </div>
-    </div>
-    
+    </div>  
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script>
@@ -189,8 +188,10 @@
             var justificativa = document.getElementById("justificativa");
             if (this.value === "sim") {
                 justificativa.style.display = "block";
+                document.getElementById("justificativa_problema").setAttribute("required", "required");
             } else {
                 justificativa.style.display = "none";
+                document.getElementById("justificativa_problema").removeAttribute("required");
             }
         });
 
@@ -208,13 +209,11 @@
 
         document.getElementById("chamadoForm").addEventListener("submit", function(event) {
             event.preventDefault();
-
             var tipoProblema = document.getElementById("tipoProblema").value;
             var mensagem = "";
             var unidade = "";
             var resultadoDiv = document.getElementById("mensagem");
             var copiarTextoButton = document.getElementById("copiarTexto");
-
             if (tipoProblema === "energia") {
                 unidade = document.getElementById("unidade_energia").value;
                 var relacionadoCopel = document.getElementById("relacionado_copel").value;
@@ -223,14 +222,12 @@
                 var prazoResolucao = document.getElementById("prazo_resolucao").value;
                 var motivoProblema = document.getElementById("motivo_problema").value;
                 var justificativaProblema = document.getElementById("justificativa_problema").value;
-
                 if (relacionadoCopel === "não está relacionado") {
                     resultadoDiv.innerHTML = "<div class='alert alert-warning' role='alert'>Se o problema não está relacionado à Copel, por favor, entre em contato com o suporte interno.</div>";
                     resultadoDiv.style.display = "block";
                     copiarTextoButton.classList.add("hidden");
                     return;
                 }
-
                 mensagem += "Unidade com problema: " + unidade + "<br>";
                 if (relacionadoCopel === "está relacionado") {
                     mensagem += "O problema está relacionado com a Copel.<br>";
@@ -253,7 +250,6 @@
                 unidade = document.getElementById("unidade_link").value;
                 var aberturaChamado = document.getElementById("abertura_chamado").value;
                 var ticketChamado = document.getElementById("ticket_chamado").value;
-
                 mensagem += "Unidade com problema: " + unidade + "<br>";
                 if (aberturaChamado === "sim" && ticketChamado) {
                     mensagem += "Chamado aberto. Ticket: " + ticketChamado + "<br>";
@@ -264,7 +260,6 @@
                     return;
                 }
             }
-
             resultadoDiv.innerHTML = "<div class='alert alert-success' role='alert'>" + mensagem + "</div>";
             resultadoDiv.style.display = "block";
             copiarTextoButton.classList.remove("hidden");
