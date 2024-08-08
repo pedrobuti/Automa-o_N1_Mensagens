@@ -56,10 +56,26 @@
             </div>
             <div id="formEnergia" class="form-section">
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label for="unidade_energia">Qual unidade está com essa indisponibilidade? *</label>
-                        <input type="text" class="form-control" id="unidade_energia" name="unidade_energia" placeholder="Informe a unidade">
+                        <input type="text" class="form-control" id="unidade_energia" name="unidade_energia" placeholder="Informe a unidade" required>
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="nome_energia">Nome *</label>
+                        <input type="text" class="form-control" id="nome_energia" name="nome_energia" placeholder="Informe o nome" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="setor_energia">Setor *</label>
+                        <input type="text" class="form-control" id="setor_energia" name="setor_energia" placeholder="Informe o setor" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="contato_energia">Contato *</label>
+                        <input type="text" class="form-control" id="contato_energia" name="contato_energia" placeholder="Informe o contato" required>
+                    </div>
+                </div>
+                <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="relacionado_copel">O problema está relacionado com a Copel? *</label>
                         <select id="relacionado_copel" name="relacionado_copel" class="form-control">
@@ -80,21 +96,17 @@
                 <div id="contatoCopel" style="display: none;">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="colaborador_contato">Qual colaborador você entrou em contato? *</label>
-                            <input type="text" class="form-control" id="colaborador_contato" name="colaborador_contato">
-                        </div>
-                        <div class="form-group col-md-6">
                             <label for="prazo_resolucao">Informe o prazo para resolução (Ex: 8hrs): *</label>
                             <input type="text" class="form-control" id="prazo_resolucao" name="prazo_resolucao">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="motivo_problema">Foi dado um motivo para o problema?</label>
-                        <select id="motivo_problema" name="motivo_problema" class="form-control">
-                            <option value="" selected>Selecione</option>
-                            <option value="sim">Sim</option>
-                            <option value="não">Não</option>
-                        </select>
+                        <div class="form-group col-md-6">
+                            <label for="motivo_problema">Foi dado um motivo para o problema?</label>
+                            <select id="motivo_problema" name="motivo_problema" class="form-control">
+                                <option value="" selected>Selecione</option>
+                                <option value="sim">Sim</option>
+                                <option value="não">Não</option>
+                            </select>
+                        </div>
                     </div>
                     <div id="justificativa" style="display: none;">
                         <div class="form-group">
@@ -124,16 +136,16 @@
                     </select>
                 </div>
                 <div id="chamadoAberto" style="display: none;">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="ticket_chamado">Informe o Ticket do chamado *</label>
-                        <input type="text" class="form-control" id="ticket_chamado" name="ticket_chamado" placeholder="Ticket do chamado">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ticket_chamado">Informe o Ticket do chamado *</label>
+                            <input type="text" class="form-control" id="ticket_chamado" name="ticket_chamado" placeholder="Ticket do chamado">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="prazo_resolucao_internet">Informe o prazo para resolução (Ex: 8hrs): *</label>
+                            <input type="text" class="form-control" id="prazo_resolucao_internet" name="prazo_resolucao_internet">
+                        </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="prazo_resolucao_internet">Informe o prazo para resolução (Ex: 8hrs): *</label>
-                        <input type="text" class="form-control" id="prazo_resolucao_internet" name="prazo_resolucao_internet">
-                    </div>
-                </div>
                     <button type="submit" class="btn btn-primary custom-primary">Gerar Chamado</button>
                 </div>
                 <div id="avisoAbrirChamado" style="display: none;">
@@ -150,173 +162,141 @@
     </div>  
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="http://127.0.0.1:5000/static/style.css"></script>
+    <script src="http://172.17.68.75:5000/static/style.css"></script>
     <script>
-        document.getElementById("tipoProblema").addEventListener("change", function() {
-            const tipoProblema = this.value;
-            const formEnergia = document.getElementById("formEnergia");
-            const formLink = document.getElementById("formLink");
-            
-            if (tipoProblema === "energia") {
-                formEnergia.style.display = "block";
-                formLink.style.display = "none";
-                setEnergiaRequired(true);
-                setChamadoRequired(false);
-            } else if (tipoProblema === "link") {
-                formEnergia.style.display = "none";
-                formLink.style.display = "block";
-                setEnergiaRequired(false);
-                setChamadoRequired(true);
-            } else {
-                formEnergia.style.display = "none";
-                formLink.style.display = "none";
-                setEnergiaRequired(false);
-                setChamadoRequired(false);
-            }
-        });
-
-        document.getElementById("relacionado_copel").addEventListener("change", function() {
-            const contatoCopelSection = document.getElementById("contatoCopelSection");
-            const avisoCopel = document.getElementById("avisoCopel");
-            const entrouContato = this.value;
-
-            if (entrouContato === "está relacionado") {
-                contatoCopelSection.style.display = "block";
-                avisoCopel.style.display = "none";
-                setContatosRequired(true);
-            } else {
-                contatoCopelSection.style.display = "none";
-                avisoCopel.style.display = "block";
-                setContatosRequired(false);
-            }
-        });
-
-        document.getElementById("entrou_contato").addEventListener("change", function() {
-            const contatoCopel = document.getElementById("contatoCopel");
-            if (this.value === "entrou em contato") {
-                contatoCopel.style.display = "block";
-                setContatosDetailsRequired(true);
-            } else {
-                contatoCopel.style.display = "none";
-                setContatosDetailsRequired(false);
-            }
-        });
-
-        document.getElementById("motivo_problema").addEventListener("change", function() {
-            const justificativa = document.getElementById("justificativa");
-            if (this.value === "sim") {
-                justificativa.style.display = "block";
-                document.getElementById("justificativa_problema").setAttribute("required", "required");
-            } else {
-                justificativa.style.display = "none";
-                document.getElementById("justificativa_problema").removeAttribute("required");
-            }
-        });
-
-        document.getElementById("abertura_chamado").addEventListener("change", function() {
-            const chamadoAberto = document.getElementById("chamadoAberto");
-            const avisoAbrirChamado = document.getElementById("avisoAbrirChamado");
-
-            if (this.value === "sim") {
-                chamadoAberto.style.display = "block";
-                avisoAbrirChamado.style.display = "none";
-                setChamadoRequired(true);
-            } else {
-                chamadoAberto.style.display = "none";
-                avisoAbrirChamado.style.display = "block";
-                setChamadoRequired(false);
-            }
-        });
-
-        function setEnergiaRequired(isRequired) {
-            const fields = ['unidade_energia', 'relacionado_copel', 'entrou_contato', 'colaborador_contato', 'prazo_resolucao'];
-            fields.forEach(id => {
-                if (isRequired) {
-                    document.getElementById(id).setAttribute("required", "required");
+        $(document).ready(function() {
+            $('#tipoProblema').change(function() {
+                var tipoProblema = $(this).val();
+                $('.form-section').hide();
+                if (tipoProblema === 'energia') {
+                    $('#formEnergia').show();
+                    $('#unidade_energia').prop('required', true);
+                    $('#nome_energia').prop('required', true);
+                    $('#setor_energia').prop('required', true);
+                    $('#contato_energia').prop('required', true);
+                } else if (tipoProblema === 'link') {
+                    $('#formLink').show();
+                    $('#unidade_energia').prop('required', false);
+                    $('#nome_energia').prop('required', false);
+                    $('#setor_energia').prop('required', false);
+                    $('#contato_energia').prop('required', false);
                 } else {
-                    document.getElementById(id).removeAttribute("required");
+                    $('#formEnergia').hide();
+                    $('#formLink').hide();
                 }
             });
-        }
 
-        function setContatosRequired(isRequired) {
-            const fields = ['entrou_contato'];
-            fields.forEach(id => {
-                if (isRequired) {
-                    document.getElementById(id).setAttribute("required", "required");
+            $('#relacionado_copel').change(function() {
+                var relacionadoCopel = $(this).val();
+                if (relacionadoCopel === 'está relacionado') {
+                    $('#contatoCopel').show();
+                    $('#contatoCopelSection').show();
+                    $('#avisoCopel').hide();
+                    $('#prazo_resolucao').prop('required', true);
+                } else if (relacionadoCopel === 'não está relacionado') {
+                    $('#contatoCopel').hide();
+                    $('#contatoCopelSection').hide();
+                    $('#avisoCopel').show();
+                    $('#prazo_resolucao').prop('required', false);
                 } else {
-                    document.getElementById(id).removeAttribute("required");
+                    $('#contatoCopel').hide();
+                    $('#contatoCopelSection').hide();
+                    $('#avisoCopel').hide();
+                    $('#prazo_resolucao').prop('required', false);
                 }
             });
-        }
 
-        function setContatosDetailsRequired(isRequired) {
-            const fields = ['colaborador_contato', 'prazo_resolucao'];
-            fields.forEach(id => {
-                if (isRequired) {
-                    document.getElementById(id).setAttribute("required", "required");
+            $('#motivo_problema').change(function() {
+                var motivoProblema = $(this).val();
+                if (motivoProblema === 'sim') {
+                    $('#justificativa').show();
+                    $('#justificativa_problema').prop('required', true);
                 } else {
-                    document.getElementById(id).removeAttribute("required");
+                    $('#justificativa').hide();
+                    $('#justificativa_problema').prop('required', false);
                 }
             });
-        }
 
-        function setChamadoRequired(isRequired) {
-            const fields = ['ticket_chamado', 'prazo_resolucao_internet'];
-            fields.forEach(id => {
-                if (isRequired) {
-                    document.getElementById(id).setAttribute("required", "required");
+            $('#abertura_chamado').change(function() {
+                var aberturaChamado = $(this).val();
+                if (aberturaChamado === 'sim') {
+                    $('#chamadoAberto').show();
+                    $('#ticket_chamado').prop('required', true);
+                    $('#prazo_resolucao_internet').prop('required', true);
+                    $('#avisoAbrirChamado').hide();
+                } else if (aberturaChamado === 'não') {
+                    $('#chamadoAberto').hide();
+                    $('#ticket_chamado').prop('required', false);
+                    $('#prazo_resolucao_internet').prop('required', false);
+                    $('#avisoAbrirChamado').show();
                 } else {
-                    document.getElementById(id).removeAttribute("required");
+                    $('#chamadoAberto').hide();
+                    $('#ticket_chamado').prop('required', false);
+                    $('#prazo_resolucao_internet').prop('required', false);
+                    $('#avisoAbrirChamado').hide();
                 }
             });
-        }
 
-        document.getElementById("chamadoForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const tipoProblema = document.getElementById("tipoProblema").value;
-            let message = "";
+            $('#chamadoForm').submit(function(e) {
+                e.preventDefault();
+                var tipoProblema = $('#tipoProblema').val();
+                var mensagem = '';
 
-            if (tipoProblema === "energia") {
-                message = `Unidade com indisponibilidade de energia: "${document.getElementById("unidade_energia").value}"\n`;
-                const relacionadoCopel = document.getElementById("relacionado_copel").value;
-                message += `Problema relacionado com a Copel?: ${relacionadoCopel}\n`;
+                if (tipoProblema === 'energia') {
+                    var unidadeEnergia = $('#unidade_energia').val();
+                    var nomeEnergia = $('#nome_energia').val();
+                    var setorEnergia = $('#setor_energia').val();
+                    var contatoEnergia = $('#contato_energia').val();
+                    var relacionadoCopel = $('#relacionado_copel').val();
+                    var prazoResolucao = $('#prazo_resolucao').val();
+                    var motivoProblema = $('#motivo_problema').val();
+                    var justificativaProblema = $('#justificativa_problema').val();
 
-                if (relacionadoCopel === "está relacionado") {
-                    message += `A unidade já entrou em contato com a Copel?: ${document.getElementById("entrou_contato").value}\n`;
-                    if (document.getElementById("entrou_contato").value === "entrou em contato") {
-                        message += `Qual colaborador você entrou em contato?: ${document.getElementById("colaborador_contato").value}\n`;
-                        message += `Informe o prazo para resolução: ${document.getElementById("prazo_resolucao").value}\n`;
-                        if (document.getElementById("motivo_problema").value === "sim") {
-                            message += `Qual a justificativa do problema?: ${document.getElementById("justificativa_problema").value}\n`;
+                    mensagem = `Tipo de Problema: Indisponibilidade de Energia\n` +
+                        `Unidade: ${unidadeEnergia}\n` +
+                        `Nome: ${nomeEnergia}\n` +
+                        `Setor: ${setorEnergia}\n` +
+                        `Contato: ${contatoEnergia}\n`;
+
+                    if (relacionadoCopel === 'está relacionado') {
+                        mensagem += `Relacionado à Copel: Sim\n` +
+                            `Prazo para Resolução: ${prazoResolucao}\n`;
+                        if (motivoProblema === 'sim') {
+                            mensagem += `Motivo do Problema: ${justificativaProblema}\n`;
                         }
+                    } else {
+                        mensagem += `Relacionado à Copel: Não\n`;
                     }
+                } else if (tipoProblema === 'link') {
+                    var unidadeLink = $('#unidade_link').val();
+                    var aberturaChamado = $('#abertura_chamado').val();
+                    var ticketChamado = $('#ticket_chamado').val();
+                    var prazoResolucaoInternet = $('#prazo_resolucao_internet').val();
+
+                    mensagem = `Tipo de Problema: Indisponibilidade de Link\n` +
+                        `Unidade: ${unidadeLink}\n` +
+                        `Abertura de Chamado: ${aberturaChamado}\n`;
+
+                    if (aberturaChamado === 'sim') {
+                        mensagem += `Ticket Chamado: ${ticketChamado}\n` +
+                            `Prazo para Resolução: ${prazoResolucaoInternet}\n`;
+                    }
+                } else if (tipoProblema === 'interno') {
+                    mensagem = 'Tipo de Problema: Problema Interno\n';
                 }
-            } else if (tipoProblema === "link") {
-                message = `Unidade com indisponibilidade de link: "${document.getElementById("unidade_link").value}"\n`;
-                if (document.getElementById("abertura_chamado").value === "sim") {
-                    message += `Informe o Ticket do chamado: ${document.getElementById("ticket_chamado").value}\n`;
-                    message += `Informe o prazo para resolução: ${document.getElementById("prazo_resolucao_internet").value}\n`;
-                } else {
-                    message += `Foi realizada a abertura de chamado?: Não foi realizada a abertura de chamado\n`;
-                }
-            }
 
-            const mensagemBox = document.getElementById("mensagem");
-            mensagemBox.innerText = message;
-            mensagemBox.style.display = "block";
+                $('#mensagem').text(mensagem).show();
+                $('#copiarTexto').show();
+            });
 
-            const copyButton = document.getElementById("copiarTexto");
-            copyButton.style.display = "block";
-        });
-
-        document.getElementById("copiarTexto").addEventListener("click", function() {
-            const mensagemBox = document.getElementById("mensagem");
-            const text = mensagemBox.innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Texto copiado para a área de transferência!");
-            }).catch(err => {
-                console.error('Erro ao copiar texto: ', err);
+            $('#copiarTexto').click(function() {
+                var texto = $('#mensagem').text();
+                navigator.clipboard.writeText(texto).then(function() {
+                    alert('Texto copiado para a área de transferência');
+                }, function(err) {
+                    alert('Erro ao copiar texto: ' + err);
+                });
             });
         });
     </script>

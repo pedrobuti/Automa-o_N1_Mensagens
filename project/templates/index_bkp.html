@@ -47,7 +47,7 @@
         <form id="chamadoForm">
             <div class="form-group">
                 <label for="tipoProblema">Selecione o tipo de problema *</label>
-                <select class="form-control" id="tipoProblema">
+                <select class="form-control" id="tipoProblema" name="tipoProblema" required>
                     <option value="">Selecione</option>
                     <option value="energia">Indisponibilidade de Energia</option>
                     <option value="link">Indisponibilidade de link</option>
@@ -56,21 +56,37 @@
             </div>
             <div id="formEnergia" class="form-section">
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label for="unidade_energia">Qual unidade está com essa indisponibilidade? *</label>
-                        <input type="text" class="form-control" id="unidade_energia" name="unidade_energia" placeholder="Informe a unidade" required>
+                        <input type="text" class="form-control" id="unidade_energia" name="unidade_energia" placeholder="Informe a unidade">
                     </div>
                     <div class="form-group col-md-6">
+                        <label for="nome_energia">Nome *</label>
+                        <input type="text" class="form-control" id="nome_energia" name="nome_energia" placeholder="Informe o nome">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="setor_energia">Setor *</label>
+                        <input type="text" class="form-control" id="setor_energia" name="setor_energia" placeholder="Informe o setor">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="contato_energia">Contato *</label>
+                        <input type="text" class="form-control" id="contato_energia" name="contato_energia" placeholder="Informe o contato">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
                         <label for="relacionado_copel">O problema está relacionado com a Copel? *</label>
-                        <select id="relacionado_copel" name="relacionado_copel" class="form-control" required>
+                        <select id="relacionado_copel" name="relacionado_copel" class="form-control">
                             <option value="" selected>Selecione</option>
                             <option value="está relacionado">Sim</option>
                             <option value="não está relacionado">Não</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-6" id="contatoCopelSection">
+                    <div class="form-group col-md-6" id="contatoCopelSection" style="display: none;">
                         <label for="entrou_contato">A unidade já entrou em contato com a Copel? *</label>
-                        <select id="entrou_contato" name="entrou_contato" class="form-control" required>
+                        <select id="entrou_contato" name="entrou_contato" class="form-control">
                             <option value="" selected>Selecione</option>
                             <option value="entrou em contato">Sim</option>
                             <option value="não entrou em contato">Não</option>
@@ -101,6 +117,11 @@
                             <label for="justificativa_problema">Qual a justificativa do problema? *</label>
                             <input type="text" class="form-control" id="justificativa_problema" name="justificativa_problema">
                         </div>
+                    </div>
+                </div>
+                <div id="avisoCopel" style="display: none;">
+                    <div class="alert alert-warning" role="alert">
+                        Por favor, caso o problema não esteja relacionado a Copel, realize a abertura do chamado na opção "Problema Interno".
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary custom-primary">Gerar Chamado</button>
@@ -144,136 +165,128 @@
         </div>
     </div>  
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk20E60xII3VJC7Cjv0LMhQnljbK4jr7x5L5VOX" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="http://127.0.0.1:5000/static/script.js"></script>
+    <script src="http://172.17.68.75:5000/static/script.js"></script>
     <script>
-        document.getElementById("tipoProblema").addEventListener("change", function() {
-            // Esconder todas as seções de formulário
-            document.querySelectorAll('.form-section').forEach(function(section) {
-                section.style.display = 'none';
-            });
-            // Exibir a seção correspondente
-            var selectedValue = this.value;
-            if (selectedValue) {
-                document.getElementById('form' + selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1)).style.display = 'block';
+        // Mostrar seções do formulário com base na seleção
+        $('#tipoProblema').change(function() {
+            var tipoProblema = $(this).val();
+            $('.form-section').hide();
+            $('#mensagem').hide();
+            $('#copiarTexto').hide();
+
+            if (tipoProblema === 'energia') {
+                $('#formEnergia').show();
+            } else if (tipoProblema === 'link') {
+                $('#formLink').show();
             }
         });
 
-        document.getElementById("relacionado_copel").addEventListener("change", function() {
-            var contatoCopelSection = document.getElementById("contatoCopelSection");
-            var contatoCopel = document.getElementById("contatoCopel");
-            if (this.value === "está relacionado") {
-                contatoCopelSection.style.display = "block";
-                contatoCopel.style.display = "block";
-                document.getElementById("mensagem").style.display = "none";
+        // Mostrar ou esconder campos no formulário de Energia
+        $('#relacionado_copel').change(function() {
+            var relacionadoCopel = $(this).val();
+            if (relacionadoCopel === 'está relacionado') {
+                $('#contatoCopelSection').show();
+                $('#contatoCopel').show();
+                $('#avisoCopel').hide();
             } else {
-                contatoCopelSection.style.display = "none";
-                contatoCopel.style.display = "none";
-                document.getElementById("mensagem").innerHTML = "<div class='alert alert-warning' role='alert'>Se o problema não está relacionado à Copel, por favor, entre em contato com o suporte interno.</div>";
-                document.getElementById("mensagem").style.display = "block";
-                // Adiciona a classe hidden ao botão copiarTexto
-                document.getElementById("copiarTexto").classList.add("hidden");
+                $('#contatoCopelSection').hide();
+                $('#contatoCopel').hide();
+                $('#avisoCopel').show();
             }
         });
 
-        document.getElementById("entrou_contato").addEventListener("change", function() {
-            var contatoCopel = document.getElementById("contatoCopel");
-            if (this.value === "entrou em contato") {
-                contatoCopel.style.display = "block";
+        $('#entrou_contato').change(function() {
+            var entrouContato = $(this).val();
+            if (entrouContato === 'entrou em contato') {
+                $('#contatoCopel').show();
             } else {
-                contatoCopel.style.display = "none";
+                $('#contatoCopel').hide();
             }
         });
 
-        document.getElementById("motivo_problema").addEventListener("change", function() {
-            var justificativa = document.getElementById("justificativa");
-            if (this.value === "sim") {
-                justificativa.style.display = "block";
-                document.getElementById("justificativa_problema").setAttribute("required", "required");
+        $('#motivo_problema').change(function() {
+            var motivoProblema = $(this).val();
+            if (motivoProblema === 'sim') {
+                $('#justificativa').show();
             } else {
-                justificativa.style.display = "none";
-                document.getElementById("justificativa_problema").removeAttribute("required");
+                $('#justificativa').hide();
             }
         });
 
-        document.getElementById("abertura_chamado").addEventListener("change", function() {
-            var chamadoAberto = document.getElementById("chamadoAberto");
-            var avisoAbrirChamado = document.getElementById("avisoAbrirChamado");
-            if (this.value === "sim") {
-                chamadoAberto.style.display = "block";
-                avisoAbrirChamado.style.display = "none";
+        // Mostrar ou esconder campos no formulário de Link
+        $('#abertura_chamado').change(function() {
+            var aberturaChamado = $(this).val();
+            if (aberturaChamado === 'sim') {
+                $('#chamadoAberto').show();
+                $('#avisoAbrirChamado').hide();
             } else {
-                chamadoAberto.style.display = "none";
-                avisoAbrirChamado.style.display = "block";
+                $('#chamadoAberto').hide();
+                $('#avisoAbrirChamado').show();
             }
         });
 
-        document.getElementById("chamadoForm").addEventListener("submit", function(event) {
+        // Submissão do formulário
+        $('#chamadoForm').submit(function(event) {
             event.preventDefault();
-            var tipoProblema = document.getElementById("tipoProblema").value;
-            var mensagem = "";
-            var unidade = "";
-            var resultadoDiv = document.getElementById("mensagem");
-            var copiarTextoButton = document.getElementById("copiarTexto");
-            if (tipoProblema === "energia") {
-                unidade = document.getElementById("unidade_energia").value;
-                var relacionadoCopel = document.getElementById("relacionado_copel").value;
-                var entrouContato = document.getElementById("entrou_contato").value;
-                var colaboradorContato = document.getElementById("colaborador_contato").value;
-                var prazoResolucao = document.getElementById("prazo_resolucao").value;
-                var motivoProblema = document.getElementById("motivo_problema").value;
-                var justificativaProblema = document.getElementById("justificativa_problema").value;
-                if (relacionadoCopel === "não está relacionado") {
-                    resultadoDiv.innerHTML = "<div class='alert alert-warning' role='alert'>Se o problema não está relacionado à Copel, por favor, entre em contato com o suporte interno.</div>";
-                    resultadoDiv.style.display = "block";
-                    copiarTextoButton.classList.add("hidden");
-                    return;
-                }
-                mensagem += "Unidade com problema: " + unidade + "<br>";
-                if (relacionadoCopel === "está relacionado") {
-                    mensagem += "O problema está relacionado com a Copel.<br>";
-                    if (entrouContato === "entrou em contato") {
-                        mensagem += "A unidade já entrou em contato com a Copel.<br>";
-                        if (colaboradorContato) {
-                            mensagem += "Colaborador de contato: " + colaboradorContato + "<br>";
-                        }
-                        if (prazoResolucao) {
-                            mensagem += "Prazo para resolução: " + prazoResolucao + "<br>";
-                        }
-                        if (motivoProblema === "sim" && justificativaProblema) {
-                            mensagem += "Motivo do problema: " + justificativaProblema + "<br>";
-                        }
+            var tipoProblema = $('#tipoProblema').val();
+            var mensagem = '';
+
+            if (tipoProblema === 'energia') {
+                var unidade = $('#unidade_energia').val();
+                var nome = $('#nome_energia').val();
+                var setor = $('#setor_energia').val();
+                var contato = $('#contato_energia').val();
+                var relacionadoCopel = $('#relacionado_copel').val();
+                var entrouContato = $('#entrou_contato').val();
+                var colaboradorContato = $('#colaborador_contato').val();
+                var prazoResolucao = $('#prazo_resolucao').val();
+                var motivoProblema = $('#motivo_problema').val();
+                var justificativaProblema = $('#justificativa_problema').val();
+
+                mensagem = `Prezados, boa tarde! \n\nFavor validar indisponibilidade de energia. Segue dados: \n\nUnidade: ${unidade}. \nNome: ${nome}. \nSetor: ${setor}. \nContato: ${contato}.`;
+
+                if (relacionadoCopel === 'está relacionado') {
+                    mensagem += `\nO problema está relacionado à Copel. \nA unidade já entrou em contato com a Copel e o prazo para resolução informado é ${prazoResolucao}. \nColaborador que entrou em contato: ${colaboradorContato}.`;
+
+                    if (motivoProblema === 'sim') {
+                        mensagem += `\nMotivo do problema: ${justificativaProblema}.`;
                     } else {
-                        mensagem += "A unidade não entrou em contato com a Copel.<br>";
+                        mensagem += `\nNão foi dada uma justificativa para o problema.`;
                     }
-                }
-            } else if (tipoProblema === "link") {
-                unidade = document.getElementById("unidade_link").value;
-                var aberturaChamado = document.getElementById("abertura_chamado").value;
-                var ticketChamado = document.getElementById("ticket_chamado").value;
-                mensagem += "Unidade com problema: " + unidade + "<br>";
-                if (aberturaChamado === "sim" && ticketChamado) {
-                    mensagem += "Chamado aberto. Ticket: " + ticketChamado + "<br>";
                 } else {
-                    resultadoDiv.innerHTML = "<div class='alert alert-warning' role='alert'>Por favor, realize a abertura do chamado antes de continuar.</div>";
-                    resultadoDiv.style.display = "block";
-                    copiarTextoButton.classList.add("hidden");
-                    return;
+                    mensagem += `\nO problema não está relacionado à Copel.`;
+                }
+
+            } else if (tipoProblema === 'link') {
+                var unidade = $('#unidade_link').val();
+                var aberturaChamado = $('#abertura_chamado').val();
+                var ticketChamado = $('#ticket_chamado').val();
+                var prazoResolucaoInternet = $('#prazo_resolucao_internet').val();
+
+                mensagem = `Prezados, boa tarde! \n\nFavor validar indisponibilidade de link. Segue dados: \n\nUnidade: ${unidade}.`;
+
+                if (aberturaChamado === 'sim') {
+                    mensagem += `\nChamado já foi aberto, segue o Ticket: ${ticketChamado}. \nPrazo para resolução informado é ${prazoResolucaoInternet}.`;
+                } else {
+                    mensagem += `\nChamado ainda não foi aberto.`;
                 }
             }
-            resultadoDiv.innerHTML = "<div class='alert alert-success' role='alert'>" + mensagem + "</div>";
-            resultadoDiv.style.display = "block";
-            copiarTextoButton.classList.remove("hidden");
+
+            $('#mensagem').text(mensagem).show();
+            $('#copiarTexto').show();
         });
 
-        document.getElementById("copiarTexto").addEventListener("click", function() {
-            var mensagem = document.getElementById("mensagem").innerText;
-            var textarea = document.createElement("textarea");
-            textarea.value = mensagem;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand("copy");
-            document.body.removeChild(textarea);
-            alert("Texto copiado para a área de transferência!");
+        // Copiar para área de transferência
+        $('#copiarTexto').click(function() {
+            var mensagem = $('#mensagem').text();
+            navigator.clipboard.writeText(mensagem).then(function() {
+                alert('Texto copiado para a área de transferência!');
+            }, function(err) {
+                alert('Erro ao copiar texto: ', err);
+            });
         });
     </script>
 </body>
