@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Chamados - Indisponibilidade de Link</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://172.17.68.75:5000/static/style.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary, .custom-primary {
+            width: 100%;
+            font-size: 18px;
+            background-color: #285a41; /* Cor ajustada para #285a41 */
+            border-color: #285a41;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none;
+        }
+        .alert {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Gerador de Chamados - Indisponibilidade de Link</h2>
+        <form id="chamadoForm">
+            <div id="formLink">
+                <div class="form-group">
+                    <label for="unidade_link">Qual unidade está com essa indisponibilidade? *</label>
+                    <input type="text" class="form-control" id="unidade_link" name="unidade_link" placeholder="Informe a unidade" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="nome_link">Nome *</label>
+                        <input type="text" class="form-control" id="nome_link" name="nome_link" placeholder="Informe o nome" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="setor_link">Setor *</label>
+                        <input type="text" class="form-control" id="setor_link" name="setor_link" placeholder="Informe o setor" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="contato_link">Contato *</label>
+                        <input type="text" class="form-control" id="contato_link" name="contato_link" placeholder="Informe o contato" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="abertura_chamado">Foi realizada a abertura de chamado? *</label>
+                    <select id="abertura_chamado" name="abertura_chamado" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="não">Não</option>
+                    </select>
+                </div>
+                <div id="chamadoAberto" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ticket_chamado">Informe o Ticket do chamado *</label>
+                            <input type="text" class="form-control" id="ticket_chamado" name="ticket_chamado" placeholder="Ticket do chamado">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="prazo_resolucao_internet">Informe o prazo para resolução (Ex: 8hrs): *</label>
+                            <input type="text" class="form-control" id="prazo_resolucao_internet" name="prazo_resolucao_internet">
+                        </div>
+                    </div>
+                </div>
+                <!-- Botão de Gerar Chamado sempre visível -->
+                <button type="submit" class="btn btn-primary custom-primary">Gerar Chamado</button>
+                <div id="avisoAbrirChamado" style="display: none;">
+                    <div class="alert alert-warning" role="alert">
+                        Por favor, realize a abertura do chamado antes de continuar.
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="result-box" id="mensagem"></div>
+        <div class="copy-button-container">
+            <button class="btn btn-primary custom-primary copy-button" id="copiarTexto" style="display: none;">Copiar Texto</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#abertura_chamado').change(function() {
+                var aberturaChamado = $(this).val();
+                if (aberturaChamado === 'sim') {
+                    $('#chamadoAberto').show();
+                    $('#ticket_chamado').prop('required', true);
+                    $('#prazo_resolucao_internet').prop('required', true);
+                    $('#avisoAbrirChamado').hide();
+                } else if (aberturaChamado === 'não') {
+                    $('#chamadoAberto').hide();
+                    $('#ticket_chamado').prop('required', false);
+                    $('#prazo_resolucao_internet').prop('required', false);
+                    $('#avisoAbrirChamado').show();
+                } else {
+                    $('#chamadoAberto').hide();
+                    $('#ticket_chamado').prop('required', false);
+                    $('#prazo_resolucao_internet').prop('required', false);
+                    $('#avisoAbrirChamado').hide();
+                }
+            });
+
+            $('#chamadoForm').submit(function(e) {
+                e.preventDefault();
+                var unidadeLink = $('#unidade_link').val();
+                var nomeLink = $('#nome_link').val();
+                var setorLink = $('#setor_link').val();
+                var contatoLink = $('#contato_link').val();
+                var aberturaChamado = $('#abertura_chamado').val();
+                var ticketChamado = $('#ticket_chamado').val();
+                var prazoResolucaoInternet = $('#prazo_resolucao_internet').val();
+
+                var mensagem = `Tipo de Problema: Indisponibilidade de Link\n` +
+                    `Unidade: ${unidadeLink}\n` +
+                    `Nome: ${nomeLink}\n` +
+                    `Setor: ${setorLink}\n` +
+                    `Contato: ${contatoLink}\n` +
+                    `Abertura de Chamado: ${aberturaChamado}\n`;
+
+                if (aberturaChamado === 'sim') {
+                    mensagem += `Ticket Chamado: ${ticketChamado}\n` +
+                        `Prazo para Resolução: ${prazoResolucaoInternet}\n`;
+                }
+
+                $('#mensagem').text(mensagem).show();
+                $('#copiarTexto').show();
+            });
+
+            $('#copiarTexto').click(function() {
+                var texto = $('#mensagem').text();
+
+                // Cria um elemento <textarea> temporário
+                var textarea = document.createElement('textarea');
+                textarea.value = texto;
+                document.body.appendChild(textarea);
+
+                // Seleciona o texto do elemento <textarea>
+                textarea.select();
+                try {
+                    // Copia o texto para a área de transferência
+                    var sucesso = document.execCommand('copy');
+                    if (sucesso) {
+                        alert('Texto copiado para a área de transferência');
+                    } else {
+                        alert('Falha ao copiar o texto');
+                    }
+                } catch (err) {
+                    alert('Erro ao copiar texto: ' + err);
+                }
+
+                // Remove o elemento <textarea> temporário
+                document.body.removeChild(textarea);
+            });
+        });
+    </script>
+</body>
+</html>

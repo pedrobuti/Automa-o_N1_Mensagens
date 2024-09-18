@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Chamados</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://172.17.68.75:5000/static/style.css" rel="stylesheet">
+    <link href="http://172.17.68.75:5000/static/style.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary, .custom-primary {
+            width: 100%;
+            font-size: 18px;
+            background-color: #007bff; /* Cor azul padrão */
+            border-color: #007bff;
+        }
+        .form-section {
+            display: none;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none;
+        }
+        .copy-button-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .copy-button {
+            width: 100%;
+            font-size: 18px;
+            background-color: #007bff; /* Cor azul padrão */
+            border-color: #007bff;
+            color: white; /* Cor do texto */
+        }
+        .alert {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Gerador de Chamados</h2>
+        <form id="chamadoForm">
+            <div class="form-group">
+                <label for="tipoProblema">Selecione o tipo de problema *</label>
+                <select class="form-control" id="tipoProblema" name="tipoProblema" required>
+                    <option value="">Selecione</option>
+                    <option value="energia">Indisponibilidade de Energia</option>
+                    <option value="link">Indisponibilidade de link</option>
+                    <option value="interno">Problema interno</option>
+                </select>
+            </div>
+            <div id="formEnergia" class="form-section">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="unidade_energia">Qual unidade está com essa indisponibilidade? *</label>
+                        <input type="text" class="form-control" id="unidade_energia" name="unidade_energia" placeholder="Informe a unidade" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="nome_energia">Nome *</label>
+                        <input type="text" class="form-control" id="nome_energia" name="nome_energia" placeholder="Informe o nome" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="setor_energia">Setor *</label>
+                        <input type="text" class="form-control" id="setor_energia" name="setor_energia" placeholder="Informe o setor" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="contato_energia">Contato *</label>
+                        <input type="text" class="form-control" id="contato_energia" name="contato_energia" placeholder="Informe o contato" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="relacionado_copel">O problema está relacionado com a Copel? *</label>
+                        <select id="relacionado_copel" name="relacionado_copel" class="form-control">
+                            <option value="" selected>Selecione</option>
+                            <option value="está relacionado">Sim</option>
+                            <option value="não está relacionado">Não</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6" id="contatoCopelSection" style="display: none;">
+                        <label for="entrou_contato">A unidade já entrou em contato com a Copel? *</label>
+                        <select id="entrou_contato" name="entrou_contato" class="form-control">
+                            <option value="" selected>Selecione</option>
+                            <option value="entrou em contato">Sim</option>
+                            <option value="não entrou em contato">Não</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="contatoCopel" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="prazo_resolucao">Informe o prazo para resolução (Ex: 8hrs): *</label>
+                            <input type="text" class="form-control" id="prazo_resolucao" name="prazo_resolucao">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="motivo_problema">Foi dado um motivo para o problema?</label>
+                            <select id="motivo_problema" name="motivo_problema" class="form-control">
+                                <option value="" selected>Selecione</option>
+                                <option value="sim">Sim</option>
+                                <option value="não">Não</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="justificativa" style="display: none;">
+                        <div class="form-group">
+                            <label for="justificativa_problema">Qual a justificativa do problema? *</label>
+                            <input type="text" class="form-control" id="justificativa_problema" name="justificativa_problema">
+                        </div>
+                    </div>
+                </div>
+                <div id="avisoCopel" style="display: none;">
+                    <div class="alert alert-warning" role="alert">
+                        Por favor, caso o problema não esteja relacionado a Copel, realize a abertura do chamado na opção "Problema Interno".
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary custom-primary">Gerar Chamado</button>
+            </div>
+            <div id="formLink" class="form-section">
+                <div class="form-group">
+                    <label for="unidade_link">Qual unidade está com essa indisponibilidade? *</label>
+                    <input type="text" class="form-control" id="unidade_link" name="unidade_link" placeholder="Informe a unidade" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="nome_link">Nome *</label>
+                        <input type="text" class="form-control" id="nome_link" name="nome_link" placeholder="Informe o nome" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="setor_link">Setor *</label>
+                        <input type="text" class="form-control" id="setor_link" name="setor_link" placeholder="Informe o setor" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="contato_link">Contato *</label>
+                        <input type="text" class="form-control" id="contato_link" name="contato_link" placeholder="Informe o contato" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="abertura_chamado">Foi realizada a abertura de chamado? *</label>
+                    <select id="abertura_chamado" name="abertura_chamado" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="sim">Sim</option>
+                        <option value="não">Não</option>
+                    </select>
+                </div>
+                <div id="chamadoAberto" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ticket_chamado">Informe o Ticket do chamado *</label>
+                            <input type="text" class="form-control" id="ticket_chamado" name="ticket_chamado" placeholder="Ticket do chamado">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="prazo_resolucao_internet">Informe o prazo para resolução (Ex: 8hrs): *</label>
+                            <input type="text" class="form-control" id="prazo_resolucao_internet" name="prazo_resolucao_internet">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary custom-primary">Gerar Chamado</button>
+                </div>
+                <div id="avisoAbrirChamado" style="display: none;">
+                    <div class="alert alert-warning" role="alert">
+                        Por favor, realize a abertura do chamado antes de continuar.
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="result-box" id="mensagem"></div>
+        <div class="copy-button-container">
+            <button class="btn btn-primary custom-primary copy-button" id="copiarTexto" style="display: none;">Copiar Texto</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#tipoProblema').change(function() {
+                var tipoProblema = $(this).val();
+                $('.form-section').hide();
+    
+                // Remover obrigatoriedade de todos os campos primeiro
+                $('input[required]').prop('required', false);
+    
+                if (tipoProblema === 'energia') {
+                    $('#formEnergia').show();
+                    $('#unidade_energia, #nome_energia, #setor_energia, #contato_energia').prop('required', true);
+                    $('#copiarTexto').hide(); // Esconder botão de copiar texto para 'energia'
+                } else if (tipoProblema === 'link') {
+                    $('#formLink').show();
+                    $('#unidade_link, #nome_link, #setor_link, #contato_link').prop('required', true);
+                    $('#copiarTexto').show(); // Mostrar botão de copiar texto para 'link'
+                } else {
+                    $('#copiarTexto').hide(); // Esconder botão de copiar texto para outros tipos
+                }
+            });
+    
+            $('#relacionado_copel').change(function() {
+                var relacionadoCopel = $(this).val();
+                if (relacionadoCopel === 'está relacionado') {
+                    $('#contatoCopel').show();
+                    $('#contatoCopelSection').show();
+                    $('#avisoCopel').hide();
+                    $('#prazo_resolucao').prop('required', true);
+                } else if (relacionadoCopel === 'não está relacionado') {
+                    $('#contatoCopel').hide();
+                    $('#contatoCopelSection').hide();
+                    $('#avisoCopel').show();
+                    $('#prazo_resolucao').prop('required', false);
+                } else {
+                    $('#contatoCopel').hide();
+                    $('#contatoCopelSection').hide();
+                    $('#avisoCopel').hide();
+                    $('#prazo_resolucao').prop('required', false);
+                }
+            });
+    
+            $('#motivo_problema').change(function() {
+                var motivoProblema = $(this).val();
+                if (motivoProblema === 'sim') {
+                    $('#justificativa').show();
+                    $('#justificativa_problema').prop('required', true);
+                } else {
+                    $('#justificativa').hide();
+                    $('#justificativa_problema').prop('required', false);
+                }
+            });
+    
+            $('#abertura_chamado').change(function() {
+                var aberturaChamado = $(this).val();
+                if (aberturaChamado === 'sim') {
+                    $('#chamadoAberto').show();
+                    $('#ticket_chamado').prop('required', true);
+                    $('#prazo_resolucao_internet').prop('required', true);
+                    $('#avisoAbrirChamado').hide();
+                } else if (aberturaChamado === 'não') {
+                    $('#chamadoAberto').hide();
+                    $('#ticket_chamado').prop('required', false);
+                    $('#prazo_resolucao_internet').prop('required', false);
+                    $('#avisoAbrirChamado').show();
+                } else {
+                    $('#chamadoAberto').hide();
+                    $('#ticket_chamado').prop('required', false);
+                    $('#prazo_resolucao_internet').prop('required', false);
+                    $('#avisoAbrirChamado').hide();
+                }
+            });
+    
+            $('#chamadoForm').submit(function(e) {
+                e.preventDefault();
+                var tipoProblema = $('#tipoProblema').val();
+                var mensagem = '';
+    
+                if (tipoProblema === 'energia') {
+                    var unidadeEnergia = $('#unidade_energia').val();
+                    var nomeEnergia = $('#nome_energia').val();
+                    var setorEnergia = $('#setor_energia').val();
+                    var contatoEnergia = $('#contato_energia').val();
+                    var relacionadoCopel = $('#relacionado_copel').val();
+                    var prazoResolucao = $('#prazo_resolucao').val();
+                    var motivoProblema = $('#motivo_problema').val();
+                    var justificativaProblema = $('#justificativa_problema').val();
+    
+                    mensagem = `Tipo de Problema: Indisponibilidade de Energia\n` +
+                        `Unidade: ${unidadeEnergia}\n` +
+                        `Nome: ${nomeEnergia}\n` +
+                        `Setor: ${setorEnergia}\n` +
+                        `Contato: ${contatoEnergia}\n`;
+    
+                    if (relacionadoCopel === 'está relacionado') {
+                        mensagem += `Relacionado à Copel: Sim\n` +
+                            `Prazo para Resolução: ${prazoResolucao}\n`;
+                        if (motivoProblema === 'sim') {
+                            mensagem += `Motivo do Problema: ${justificativaProblema}\n`;
+                        }
+                    } else {
+                        mensagem += `Relacionado à Copel: Não\n`;
+                    }
+                } else if (tipoProblema === 'link') {
+                    var unidadeLink = $('#unidade_link').val();
+                    var nomeLink = $('#nome_link').val();
+                    var setorLink = $('#setor_link').val();
+                    var contatoLink = $('#contato_link').val();
+                    var aberturaChamado = $('#abertura_chamado').val();
+                    var ticketChamado = $('#ticket_chamado').val();
+                    var prazoResolucaoInternet = $('#prazo_resolucao_internet').val();
+    
+                    mensagem = `Tipo de Problema: Indisponibilidade de Link\n` +
+                        `Unidade: ${unidadeLink}\n` +
+                        `Nome: ${nomeLink}\n` +
+                        `Setor: ${setorLink}\n` +
+                        `Contato: ${contatoLink}\n` +
+                        `Abertura de Chamado: ${aberturaChamado}\n`;
+    
+                    if (aberturaChamado === 'sim') {
+                        mensagem += `Ticket Chamado: ${ticketChamado}\n` +
+                            `Prazo para Resolução: ${prazoResolucaoInternet}\n`;
+                    }
+                } else if (tipoProblema === 'interno') {
+                    mensagem = 'Tipo de Problema: Problema Interno\n';
+                }
+    
+                $('#mensagem').text(mensagem).show();
+                $('#copiarTexto').show();
+            });
+    
+            $('#copiarTexto').click(function() {
+                var texto = $('#mensagem').text();
+    
+                // Cria um elemento <textarea> temporário
+                var textarea = document.createElement('textarea');
+                textarea.value = texto;
+                document.body.appendChild(textarea);
+    
+                // Seleciona o texto do elemento <textarea>
+                textarea.select();
+                try {
+                    // Copia o texto para a área de transferência
+                    var sucesso = document.execCommand('copy');
+                    if (sucesso) {
+                        alert('Texto copiado para a área de transferência');
+                    } else {
+                        alert('Falha ao copiar o texto');
+                    }
+                } catch (err) {
+                    alert('Erro ao copiar texto: ' + err);
+                }
+    
+                // Remove o elemento <textarea> temporário
+                document.body.removeChild(textarea);
+            });
+        });
+    </script>
+    

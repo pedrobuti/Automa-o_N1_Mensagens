@@ -1,0 +1,9 @@
+.btn-primary.custom-primary {
+    background-color: #32614c;
+    border-color: #32614c;
+}
+
+.btn-primary.custom-primary:hover {
+    background-color: #285a41; /* Cor de fundo ao passar o mouse */
+    border-color: #285a41; /* Cor da borda ao passar o mouse */
+}
